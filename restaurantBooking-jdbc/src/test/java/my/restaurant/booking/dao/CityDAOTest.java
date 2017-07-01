@@ -1,11 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package my.restaurant.booking.dao;
 
 
+import java.util.List;
+import my.restaurant.booking.api.model.City;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -24,12 +22,10 @@ public class CityDAOTest {
     @Test
     public void testGetCities() {
 
-        CityDAO instance = new CityDAO();        
+        List<City> cities = new CityDAO().getCities();        
         
-        assertEquals(3, instance.getCities().size());
-        assertFalse(instance.getCities().isEmpty());
-        
-        
+        assertFalse(cities.isEmpty());  
+        assertEquals(3, cities.size());
     }
     
 }

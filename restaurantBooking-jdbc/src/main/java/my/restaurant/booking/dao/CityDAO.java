@@ -1,5 +1,4 @@
 
-
 package my.restaurant.booking.dao;
 
 import java.sql.Connection;
@@ -25,21 +24,20 @@ public class CityDAO extends MySqlConnector implements IBookingCityDao{
     @Override
     public List<City> getCities() {
         
-        List<City> result = new LinkedList();
+        List<City> cities = new LinkedList<>();
         
         try(Connection connection = getConnection();
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery(QUERY)) {
             
             while (rs.next()) {
-                result.add( new City(rs.getLong("cityId"),rs.getString("cityName")));
+                cities.add( new City(rs.getLong("cityId"),rs.getString("cityName")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(CityDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        return result;
-        
+        return cities; 
     }
 
 }
