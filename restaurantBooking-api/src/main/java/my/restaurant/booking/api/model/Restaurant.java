@@ -9,20 +9,19 @@ import java.util.Objects;
  *
  * @author Bánszki András <andras.banszki@gmail.com>
  */
-
 public class Restaurant {
 
-    private final Long id;
+    private final long id;
     private final String name;
-    private final City city;
+    private final long cityId;
 
-    public Restaurant(Long id, String name, City city) {
+    public Restaurant(long id, String name, long cityId) {
         this.id = id;
         this.name = name;
-        this.city = city;
+        this.cityId = cityId;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
@@ -30,8 +29,8 @@ public class Restaurant {
         return name;
     }
 
-    public City getCity() {
-        return city;
+    public long getCity() {
+        return cityId;
     }
 
     @Override
@@ -39,7 +38,7 @@ public class Restaurant {
         int hash = 3;
         hash = 11 * hash + Objects.hashCode(this.id);
         hash = 11 * hash + Objects.hashCode(this.name);
-        hash = 11 * hash + Objects.hashCode(this.city);
+        hash = 11 * hash + Objects.hashCode(this.cityId);
         return hash;
     }
 
@@ -61,14 +60,12 @@ public class Restaurant {
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
-        return Objects.equals(this.city, other.city);
+        return Objects.equals(this.cityId, other.cityId);
     }
 
     @Override
     public String toString() {
-        return "Restaurant{" + "id=" + id + ", name=" + name + ", city=" + city + '}';
+        return "Restaurant{" + "id=" + id + ", name=" + name + ", city=" + cityId + '}';
     }
-
-    
 
 }

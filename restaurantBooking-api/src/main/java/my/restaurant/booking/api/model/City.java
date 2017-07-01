@@ -12,15 +12,15 @@ import java.util.Objects;
 
 public class City  {
 
-    private final Long id;
+    private final long id;
     private final String name;
 
-    public City(Long id, String name) {
+    public City(long id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 

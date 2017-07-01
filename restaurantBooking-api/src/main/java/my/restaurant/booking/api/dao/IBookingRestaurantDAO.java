@@ -10,5 +10,5 @@ import my.restaurant.booking.api.model.Restaurant;
  */
 public interface IBookingRestaurantDAO {
     
-    public List<Restaurant> getRestaurants();
+    public List<Restaurant> getRestaurants(long cityId);
 }

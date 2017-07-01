@@ -13,11 +13,11 @@ import java.util.Objects;
 
 public class BookedTable {
 
-    private final Long id;
+    private final long id;
     private final Booking booking;
     private final Table table;
 
-    public BookedTable(Long id, Booking booking, Table table) {
+    public BookedTable(long id, Booking booking, Table table) {
         this.id = id;
         this.booking = booking;
         this.table = table;
