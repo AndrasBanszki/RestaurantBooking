@@ -1,0 +1,17 @@
+description = 'Restaurant Booking System'
+
+allprojects {
+    apply plugin: 'base'
+    apply plugin: 'java'
+
+    group = 'my.restaurant.booking'
+
+    repositories {
+    	mavenLocal()
+    	mavenCentral()
+    }
+	
+    dependencies {
+	}
+}
+

@@ -1,0 +1,40 @@
+description = 'RestaurantBooking-JDBC'
+
+
+
+sourceCompatibility = '1.8'
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+
+
+
+jar {
+    baseName = 'restaurantBooking-jdbc'
+	version = '0.0.1-SNAPSHOT'
+       
+}
+
+dependencies {
+	testCompile('junit:junit:4.12'){
+		exclude group: 'org.hamcrest'
+	}
+	testCompile 'org.hamcrest:hamcrest-library:1.3'
+        compile 'mysql:mysql-connector-java:6.0.3'
+}
+
+test {
+    
+  testLogging.showStandardStreams = true
+
+  minHeapSize = "128m"
+  maxHeapSize = "512m"
+
+
+  beforeTest { descriptor ->
+     logger.lifecycle("Running test: " + descriptor)
+  }
+
+  onOutput { descriptor, event ->
+     logger.lifecycle("Test: " + descriptor + " produced standard out/err: " + event.message )
+  }
+}

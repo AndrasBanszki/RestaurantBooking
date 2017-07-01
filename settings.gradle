@@ -1,0 +1,9 @@
+rootProject.name = 'Restaurant Booking System'
+
+
+include ':restaurantBooking-api'
+include ':restaurantBooking-jdbc'
+include ':restaurantBooking-main'
+
+
+

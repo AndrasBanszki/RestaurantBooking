@@ -1,0 +1,18 @@
+description = 'restaurantBooking-Main'
+
+apply plugin: 'application'
+mainClassName = 'my.restaurant.booking.main.Main'
+jar {
+    baseName = 'restaurantBooking-main'
+	version = '0.0.1-SNAPSHOT'
+    from { 
+		configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } 
+	}
+    manifest {
+        attributes 'Main-Class': 'my.restaurant.booking.main.Main'
+    }
+}
+
+dependencies{
+	compile project(':restaurantBooking-jdbc')
+}
