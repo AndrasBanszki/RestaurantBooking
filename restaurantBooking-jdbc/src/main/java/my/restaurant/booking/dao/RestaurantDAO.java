@@ -31,7 +31,7 @@ public class RestaurantDAO extends MySqlConnector implements IBookingRestaurantD
         
         try(Connection connection = getConnection();
             Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery(QUERY + String.valueOf(cityId))) {
+            ResultSet rs = statement.executeQuery(QUERY + String.valueOf(cityId) + ";" ) ) {
             
             while (rs.next()) {
                 restaurants.add( new Restaurant(rs.getLong("cityId"), rs.getString("restName"), rs.getLong("cityId")));

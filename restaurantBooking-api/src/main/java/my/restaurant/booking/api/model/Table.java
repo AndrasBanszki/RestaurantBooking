@@ -12,17 +12,17 @@ import java.util.Objects;
 
 public class Table {
 
-    private final Long id;
+    private final long id;
     private final int numberOfSeats;
-    private final Restaurant restaurant;
+    private final long restaurantId;
 
-    public Table(Long id, int numberOfSeats, Restaurant restaurant) {
+    public Table(long id, int numberOfSeats, long restaurantId) {
         this.id = id;
         this.numberOfSeats = numberOfSeats;
-        this.restaurant = restaurant;
+        this.restaurantId = restaurantId;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
@@ -30,16 +30,16 @@ public class Table {
         return numberOfSeats;
     }
 
-    public Restaurant getRestaurant() {
-        return restaurant;
+    public long getRestaurantId() {
+        return restaurantId;
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 67 * hash + Objects.hashCode(this.id);
-        hash = 67 * hash + this.numberOfSeats;
-        hash = 67 * hash + Objects.hashCode(this.restaurant);
+        int hash = 3;
+        hash = 47 * hash + (int) (this.id ^ (this.id >>> 32));
+        hash = 47 * hash + this.numberOfSeats;
+        hash = 47 * hash + (int) (this.restaurantId ^ (this.restaurantId >>> 32));
         return hash;
     }
 
@@ -55,18 +55,20 @@ public class Table {
             return false;
         }
         final Table other = (Table) obj;
+        if (this.id != other.id) {
+            return false;
+        }
         if (this.numberOfSeats != other.numberOfSeats) {
             return false;
         }
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        return Objects.equals(this.restaurant, other.restaurant);
+        return this.restaurantId == other.restaurantId;
     }
+
+
 
     @Override
     public String toString() {
-        return "Table{" + "id=" + id + ", numberOfSeats=" + numberOfSeats + ", restaurant=" + restaurant + '}';
+        return "Table{" + "id=" + id + ", numberOfSeats=" + numberOfSeats + ", restaurant=" + restaurantId + '}';
     }
 
  

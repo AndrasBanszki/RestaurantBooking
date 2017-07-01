@@ -11,9 +11,6 @@ import static org.junit.Assert.*;
  * @author Bánszki András <andras.banszki@gmail.com>
  */
 public class RestaurantDAOTest {
-    
-    public RestaurantDAOTest() {
-    }
 
     /**
      * Test of getRestaurants method, of class RestaurantDAO.
@@ -23,8 +20,8 @@ public class RestaurantDAOTest {
         
         List<Restaurant> restaurants = new RestaurantDAO().getRestaurants(1);        
         
-        assertEquals(3, restaurants.size());
         assertFalse(restaurants.isEmpty());  
+        assertEquals(3, restaurants.size());
     }
     
 }
