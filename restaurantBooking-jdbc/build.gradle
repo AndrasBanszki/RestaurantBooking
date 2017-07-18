@@ -15,6 +15,7 @@ jar {
 }
 
 dependencies {
+        compile project(':restaurantBooking-api')
 	testCompile('junit:junit:4.12'){
 		exclude group: 'org.hamcrest'
 	}

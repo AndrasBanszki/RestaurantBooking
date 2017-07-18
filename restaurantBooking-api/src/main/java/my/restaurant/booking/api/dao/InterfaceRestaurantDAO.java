@@ -8,7 +8,7 @@ import my.restaurant.booking.api.model.Restaurant;
  *
  * @author Bánszki András <andras.banszki@gmail.com>
  */
-public interface IBookingRestaurantDAO {
+public interface InterfaceRestaurantDAO {
     
     public List<Restaurant> getRestaurants(long cityId);
 }

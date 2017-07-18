@@ -9,15 +9,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import my.restaurant.booking.api.dao.IBookingCityDao;
 import my.restaurant.booking.api.model.City;
 import my.restaurant.booking.jdbc.MySqlConnector;
+import my.restaurant.booking.api.dao.InterfaceCityDAO;
 
 /**
  *
  * @author Bánszki András <andras.banszki@gmail.com>
  */
-public class CityDAO extends MySqlConnector implements IBookingCityDao{
+public class CityDAO extends MySqlConnector implements InterfaceCityDAO{
     
     private final static String QUERY = "select city.id as cityId, city.name as cityName from city;";
 

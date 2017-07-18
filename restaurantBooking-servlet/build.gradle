@@ -1,0 +1,15 @@
+description = 'restaurantBooking-servlet'
+
+apply plugin: 'war'
+
+jar {
+    baseName = 'restaurantBooking-servlet'
+	version = '0.0.1-SNAPSHOT'
+
+    
+}
+
+dependencies{
+		compile 'javax:javaee-api:7.0'
+		compile project(':restaurantBooking-service')
+}

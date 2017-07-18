@@ -9,7 +9,7 @@ import my.restaurant.booking.api.model.City;
  *
  * @author Bánszki András <andras.banszki@gmail.com>
  */
-public interface IBookingCityDao {
+public interface InterfaceCityDAO {
 
         public List<City> getCities();
 }

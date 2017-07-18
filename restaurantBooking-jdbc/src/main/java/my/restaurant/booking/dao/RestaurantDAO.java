@@ -10,15 +10,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import my.restaurant.booking.api.dao.IBookingRestaurantDAO;
 import my.restaurant.booking.api.model.Restaurant;
 import my.restaurant.booking.jdbc.MySqlConnector;
+import my.restaurant.booking.api.dao.InterfaceRestaurantDAO;
 
 /**
  *
  * @author Bánszki András <andras.banszki@gmail.com>
  */
-public class RestaurantDAO extends MySqlConnector implements IBookingRestaurantDAO {
+public class RestaurantDAO extends MySqlConnector implements InterfaceRestaurantDAO {
 
     private final static String QUERY = "select restaurant.city_id as cityId, restaurant.id as restId, restaurant.name as restName\n" +
                                         "from restaurant\n" +
@@ -27,6 +27,10 @@ public class RestaurantDAO extends MySqlConnector implements IBookingRestaurantD
     @Override
     public List<Restaurant> getRestaurants(long cityId) {
         
+        if(cityId == 0){
+            return new LinkedList<>();
+        }
+        
         List<Restaurant> restaurants = new LinkedList<>();
         
         try(Connection connection = getConnection();
@@ -34,7 +38,7 @@ public class RestaurantDAO extends MySqlConnector implements IBookingRestaurantD
             ResultSet rs = statement.executeQuery(QUERY + String.valueOf(cityId) + ";" ) ) {
             
             while (rs.next()) {
-                restaurants.add( new Restaurant(rs.getLong("cityId"), rs.getString("restName"), rs.getLong("cityId")));
+                restaurants.add( new Restaurant(rs.getLong("restId"), rs.getString("restName"), rs.getLong("cityId")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(CityDAO.class.getName()).log(Level.SEVERE, null, ex);

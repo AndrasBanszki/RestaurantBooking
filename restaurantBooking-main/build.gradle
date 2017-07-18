@@ -14,5 +14,6 @@ jar {
 }
 
 dependencies{
-	compile project(':restaurantBooking-jdbc')
+
+        compile project(':restaurantBooking-servlet')
 }

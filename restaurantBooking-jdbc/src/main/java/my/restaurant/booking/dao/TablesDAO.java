@@ -9,22 +9,22 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import my.restaurant.booking.api.dao.IBookingTablesDAO;
 import my.restaurant.booking.api.model.Table;
 import my.restaurant.booking.jdbc.MySqlConnector;
+import my.restaurant.booking.api.dao.InterfaceTablesDAO;
 
 /**
  *
  * @author Bánszki András <andras.banszki@gmail.com>
  */
-public class TablesDAO extends MySqlConnector implements IBookingTablesDAO {
+public class TablesDAO extends MySqlConnector implements InterfaceTablesDAO {
     
-    private final static String QUERY = "select restaurant.table.id as tableId, restaurant.table.number_of_seats as seats, restaurant.table.restaurant_id as restId\n" +
-                                        "from restaurant.table\n" +
-                                        "where restaurant.table.restaurant_id = " ;
+    private final static String QUERY = "select restaurant.table.id as tableId, restaurant.table.number_of_seats as seats, restaurant.table.restaurant_id as restId\\n\" +\n" +
+"                                        \"from restaurant.table\\n\" +\n" +
+"                                        \"where restaurant.table.restaurant_id = ";
 
     @Override
-    public List<Table> getTablesOfRestaurant(long restaurantId) {
+    public List<Table> getBookedTables(long restaurantId, java.util.Date date) {
         
         List<Table> tables = new LinkedList<>();
         
@@ -41,5 +41,8 @@ public class TablesDAO extends MySqlConnector implements IBookingTablesDAO {
         
         return tables;
     }
+
+
+
 
 }
