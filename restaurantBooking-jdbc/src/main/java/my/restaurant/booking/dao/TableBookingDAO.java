@@ -1,21 +1,19 @@
-
-
 package my.restaurant.booking.dao;
 
-import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import static java.time.format.DateTimeFormatter.ISO_DATE_TIME;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import my.restaurant.booking.api.dao.InterfaceTableBookingDAO;
-
+import my.restaurant.booking.api.model.Booking;
+import my.restaurant.booking.api.model.Table;
 import my.restaurant.booking.api.model.TableBooking;
 import my.restaurant.booking.jdbc.MySqlConnector;
 
@@ -23,51 +21,88 @@ import my.restaurant.booking.jdbc.MySqlConnector;
  *
  * @author Bánszki András <andras.banszki@gmail.com>
  */
-public class TableBookingDAO extends MySqlConnector  implements InterfaceTableBookingDAO {
+public class TableBookingDAO extends MySqlConnector implements InterfaceTableBookingDAO{
     
-    private static final String QUERY_PART1 =   "SELECT t.id as tableId, restaurant_table as restTableId, t.restaurant_id as restId,\n" +
-                                                "DATE_FORMAT( b.date_time, '%Y-%m-%dT%H:%i:%s') as dateTime, b.long as duration, b.number_of_people as personNum\n" +
-                                                "FROM restaurant.book_table as bt\n" +
-                                                "JOIN restaurant.table AS t ON bt.table_id = t.id\n" +
-                                                "JOIN restaurant.books AS b ON bt.book_id = b.id\n" +
-                                                "WHERE Date(b.date_time) = '";
-    private static final String QUERY_PART2 =   "' \n" +
-                                                "AND t.restaurant_id = ";
-    private static final String QUERY_PART3 =   "\nORDER BY t.id ASC, b.date_time;";
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private final static String SELECT_ALL_QUERY = "SELECT restaurant.book_table.id AS id,\n" +
+                                                   "       restaurant.book_table.book_id AS bookId,\n" +
+                                                   "       restaurant.book_table.table_id AS tableId\n" +
+                                                   "FROM restaurant.book_table;";
     
-
+    private final static String SELECT_BY_RESTAURANT_DATE_QUERY = "SELECT ta.id AS tableId, \n" +
+                                                                  "	  ta.number_of_seats AS seats,\n" +
+                                                                  "       ta.restaurant_id AS restId,\n" +
+                                                                  "       ta.restaurant_table AS tableNo,\n" +
+                                                                  "       bt.id AS btId,\n" +
+                                                                  "       bo.id AS bookId,\n" +
+                                                                  "       bo.long AS duration,\n" +
+                                                                  "       bo.number_of_people AS noPeople,\n" +
+                                                                  "       bo.date_time AS date\n" +
+                                                                  "FROM restaurant.table  ta, restaurant.book_table bt, restaurant.books bo\n" +
+                                                                  "WHERE ta.id = bt.table_id\n" +
+                                                                  "AND bt.book_id = bo.id\n" +
+                                                                  "AND Date(bo.date_time) = ?\n" +
+                                                                  "AND ta.restaurant_id = ?\n" +
+                                                                  "ORDER BY ta.id ASC, bo.date_time;";
+    
+    /*
+    Trying to use the other DAO-s to fill out the TableBooking list, its a basic thing
+    TableBooking has an id, and 2 outer keys : table_id, book_id in the database
+    The POJO of this has an ID, and 2 other POJOs as attribute,
+        Booking and Table;
+        I gonna use my other DAO-s to get these Objects, and create a TableBooking Object
+    */
     @Override
-    public List<TableBooking> getTableBookings(long restId, LocalDate date) {
+    public List<TableBooking> getAllTableBooking() {
         
-        if(date == null){
-            return new LinkedList<>();
-        }
+        List<TableBooking> tableBookings = new ArrayList<>();
+        TablesDAO tablesDao = new TablesDAO();
+        BookingDAO bookingDao = new BookingDAO();
         
-        List<TableBooking> tableBookings = new LinkedList<>();
-        
-        System.out.println(QUERY_PART1 + date.format(formatter) + QUERY_PART2 + String.valueOf(restId) + QUERY_PART3);
-                
-        try(Connection connection = getConnection();
-            Statement statement = connection.createStatement();      
-            ResultSet rs = statement.executeQuery(QUERY_PART1 + date.format(formatter) + QUERY_PART2 + String.valueOf(restId) + QUERY_PART3 ) ) 
+        try(Statement stmt  = this.getConnection().createStatement();
+            ResultSet rs = stmt.executeQuery(SELECT_ALL_QUERY);) 
             {
-            
             while (rs.next()) {
-// TableBooking(long tableid, long restTableId, long restaurantId, Date date, int duration, int numberOfperson)
-                tableBookings.add( new TableBooking(rs.getLong("tableId"),
-                                                    rs.getLong("restTableId"),
-                                                    rs.getLong("restId"),
-                                                    LocalDateTime.parse(rs.getString("dateTime"), ISO_DATE_TIME),
-                                                    rs.getInt("duration"),
-                                                    rs.getInt("personNum")));
+                tableBookings.add( new TableBooking(rs.getLong("id"), 
+                                                    tablesDao.getTableById(rs.getLong("tableId")),
+                                                    bookingDao.getBookingById(rs.getLong("bookId"))));
             }
         } catch (SQLException ex) {
-            Logger.getLogger(CityDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RestaurantDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         return tableBookings;
     }
     
+    /*
+    Here i dont use other DAO instances, instead im letting the sql server to fetch all the date I need
+    */
+    @Override
+    public List<TableBooking> getTableBookingOfRestaurantByDate(long restId, LocalDate date) {
+        
+        List<TableBooking> tableBookings = new ArrayList<>();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                
+        try(PreparedStatement stmt = prepareStatement(this.getConnection(), 
+                                                       SELECT_BY_RESTAURANT_DATE_QUERY,
+                                                       ps -> {ps.setString(1, date.format(formatter)); 
+                                                              ps.setString(2,  String.valueOf(restId));});                                    
+            ResultSet rs = stmt.executeQuery(); )
+            {
+            while (rs.next()) { 
+                tableBookings.add(new TableBooking(rs.getLong("btId"),
+                                                   new Table(rs.getLong("tableId"), 
+                                                             rs.getInt("seats"), 
+                                                             rs.getLong("restId"), 
+                                                             rs.getInt("tableNo")),
+                                                   new Booking(rs.getLong("bookId"),
+                                                               LocalDateTime.parse(rs.getString("date"),DateTimeFormatter.ofPattern("yyyy-LL-dd HH:mm:ss")),
+                                                               rs.getInt("duration"),
+                                                               rs.getInt("noPeople"))));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RestaurantDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return tableBookings;
+    }
 
 }

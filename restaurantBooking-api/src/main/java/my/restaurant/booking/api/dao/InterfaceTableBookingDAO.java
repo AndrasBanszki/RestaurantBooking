@@ -1,4 +1,3 @@
-
 package my.restaurant.booking.api.dao;
 
 import java.time.LocalDate;
@@ -11,6 +10,7 @@ import my.restaurant.booking.api.model.TableBooking;
  */
 public interface InterfaceTableBookingDAO {
     
-    public List<TableBooking> getTableBookings(long restId, LocalDate date);
+    public List<TableBooking> getAllTableBooking();
+    public List<TableBooking> getTableBookingOfRestaurantByDate(long restId, LocalDate date);
     
 }

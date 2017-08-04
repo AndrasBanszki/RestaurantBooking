@@ -17,15 +17,29 @@ public class CityDAOTest {
     }
 
     /**
-     * Test of getCities method, of class CityDAO.
+     * Test of getAllCities method, of class CityDAO.
      */
     @Test
-    public void testGetCities() {
-
-        List<City> cities = new CityDAO().getCities();        
+    public void testGetAllCities() {
+        
+        CityDAO cityDAO =  new CityDAO();
+        List<City> cities = cityDAO.getAllCities();        
         
         assertFalse(cities.isEmpty());  
         assertEquals(3, cities.size());
+    }
+
+    /**
+     * Test of getCityById method, of class CityDAO.
+     */
+    @Test
+    public void testGetCityById() {
+        
+        CityDAO cityDAO =  new CityDAO();
+        City city = cityDAO.getCityById(1);
+        
+        assertNotNull(city);  
+        assertEquals("Budapest", city.getName());
     }
     
 }

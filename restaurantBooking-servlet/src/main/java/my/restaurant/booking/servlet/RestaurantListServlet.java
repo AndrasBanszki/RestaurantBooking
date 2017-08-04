@@ -1,7 +1,9 @@
 
+
 package my.restaurant.booking.servlet;
 
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,13 +19,14 @@ import my.restaurant.booking.service.DAOServices;
  *
  * @author Bánszki András <andras.banszki@gmail.com>
  */
-@WebServlet(urlPatterns = { "/booking"})
-public class BookingServlet extends HttpServlet{
+@WebServlet(urlPatterns = { "/restaurantList"})
+public class RestaurantListServlet extends HttpServlet{
+    private String errorString;
     
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         DAOServices bs = null;
         List<City> cityList = null;
         List<Restaurant> restList = null;
@@ -33,19 +36,20 @@ public class BookingServlet extends HttpServlet{
              restList = bs.getAllRestaurants();
         } catch (Exception e) {
             request.setAttribute("errorString", e.getMessage());
-        }  
+        }        
         request.getSession().setAttribute("cityList", cityList);
         request.getSession().setAttribute("restList", restList);
+        
+        // Forward to /WEB-INF/views/productListView.jsp
         RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/restaurantListView.jsp");
 
         dispatcher.forward(request, response);
+        
     }
-    
+ 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
         doGet(request, response);
     }
-    
 }

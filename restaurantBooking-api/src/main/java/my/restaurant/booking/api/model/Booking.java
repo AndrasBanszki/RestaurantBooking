@@ -1,10 +1,7 @@
-
-
 package my.restaurant.booking.api.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
-
 
 /**
  *
@@ -13,11 +10,11 @@ import java.util.Objects;
 public class Booking  {
     
     private final long id;
-    private final Date dateTime;
+    private final LocalDateTime dateTime;
     private final int duration;
     private final int numberOfPeople;
 
-    public Booking(long id, Date dateTime, int duration, int numberOfPeople) {
+    public Booking(long id, LocalDateTime dateTime, int duration, int numberOfPeople) {
         
         this.id = id;
         this.dateTime = dateTime;
@@ -30,7 +27,7 @@ public class Booking  {
         return id;
     }
 
-    public Date getDateTime() {
+    public LocalDateTime getDateTime() {
         
         return dateTime;
     }

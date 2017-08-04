@@ -2,9 +2,7 @@
 
 package my.restaurant.booking.api.model;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
+import java.util.Objects;
 
 /**
  *
@@ -12,75 +10,65 @@ import java.time.LocalDateTime;
  */
 public class TableBooking {
     
-    private long tableid;
-    private long restTableId;
-    private long restaurantId;
-    private LocalDateTime date;
-    private int duration;
-    private int numberOfperson;
+    private final long id;
+    private final Table table;
+    private final Booking booking;
 
-    public TableBooking(long tableid, long restTableId, long restaurantId, LocalDateTime date, int duration, int numberOfperson) {
-        this.tableid = tableid;
-        this.restTableId = restTableId;
-        this.restaurantId = restaurantId;
-        this.date = date;
-        this.duration = duration;
-        this.numberOfperson = numberOfperson;
+    public TableBooking(long id, Table table, Booking booking) {
+        this.id = id;
+        this.table = table;
+        this.booking = booking;
     }
 
-    public long getTableid() {
-        return tableid;
+    public long getId() {
+        return id;
     }
 
-    public void setTableid(long tableid) {
-        this.tableid = tableid;
+    public Table getTable() {
+        return table;
     }
 
-    public long getRestTableId() {
-        return restTableId;
+    public Booking getBooking() {
+        return booking;
     }
 
-    public void setRestTableId(long restTableId) {
-        this.restTableId = restTableId;
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 17 * hash + (int) (this.id ^ (this.id >>> 32));
+        hash = 17 * hash + Objects.hashCode(this.table);
+        hash = 17 * hash + Objects.hashCode(this.booking);
+        return hash;
     }
 
-    public long getRestaurantId() {
-        return restaurantId;
-    }
-
-    public void setRestaurantId(long restaurantId) {
-        this.restaurantId = restaurantId;
-    }
-
-    public LocalDateTime getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDateTime date) {
-        this.date = date;
-    }
-
-    public int getDuration() {
-        return duration;
-    }
-
-    public void setDuration(int duration) {
-        this.duration = duration;
-    }
-
-    public int getNumberOfperson() {
-        return numberOfperson;
-    }
-
-    public void setNumberOfperson(int numberOfperson) {
-        this.numberOfperson = numberOfperson;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final TableBooking other = (TableBooking) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        if (!Objects.equals(this.table, other.table)) {
+            return false;
+        }
+        if (!Objects.equals(this.booking, other.booking)) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public String toString() {
-        return "TableBooking{" + "tableid=" + tableid + ", restTableId=" + restTableId + ", restaurantId=" + restaurantId + ", date=" + date + ", duration=" + duration + ", numberOfperson=" + numberOfperson + '}';
+        return "TableBooking{" + "id=" + id + ", table=" + table + ", booking=" + booking + '}';
     }
-
-  
     
+
 }

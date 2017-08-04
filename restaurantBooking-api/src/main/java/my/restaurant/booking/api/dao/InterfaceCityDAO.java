@@ -1,5 +1,3 @@
-
-
 package my.restaurant.booking.api.dao;
 
 import java.util.List;
@@ -11,5 +9,7 @@ import my.restaurant.booking.api.model.City;
  */
 public interface InterfaceCityDAO {
 
-        public List<City> getCities();
+        public List<City> getAllCities();
+        
+        public City getCityById(long id);
 }

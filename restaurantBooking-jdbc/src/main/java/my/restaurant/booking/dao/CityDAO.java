@@ -1,7 +1,6 @@
-
 package my.restaurant.booking.dao;
 
-import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -19,25 +18,50 @@ import my.restaurant.booking.api.dao.InterfaceCityDAO;
  */
 public class CityDAO extends MySqlConnector implements InterfaceCityDAO{
     
-    private final static String QUERY = "select city.id as cityId, city.name as cityName from city;";
-
+    private final static String QUERY_ALL = "SELECT city.id AS cityId, city.name AS cityName " +
+                                            "FROM city;";
+    
+    private final static String QUERY_ID = "SELECT city.id AS cityId, city.name AS cityName " +
+                                           "FROM city " +
+                                           "WHERE city.id = ? ;" ;
+    
     @Override
-    public List<City> getCities() {
+    public List<City> getAllCities() {
         
         List<City> cities = new LinkedList<>();
-        
-        try(Connection connection = getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery(QUERY)) {
-            
+                
+        try( Statement stmt  = this.getConnection().createStatement();
+             ResultSet rs = stmt.executeQuery(QUERY_ALL); ) 
+            {
             while (rs.next()) {
-                cities.add( new City(rs.getLong("cityId"),rs.getString("cityName")));
+                cities.add( new City(rs.getLong("cityId"),
+                                     rs.getString("cityName")));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RestaurantDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return cities;
+    }
+
+    @Override
+    public City getCityById( long id) {
+        
+        City city = null;
+        
+        try(PreparedStatement stmt = prepareStatement(this.getConnection(),
+                                                      QUERY_ID, 
+                                                      ps -> ps.setString(1, String.valueOf(id)));
+            ResultSet rs = stmt.executeQuery(); ) 
+            {
+            if (rs.next()) {
+                city =  new City(rs.getLong("cityId"),
+                                 rs.getString("cityName"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(CityDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        return cities; 
+        return city;
     }
-
 }

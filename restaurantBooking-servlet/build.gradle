@@ -11,5 +11,11 @@ jar {
 
 dependencies{
 		compile 'javax:javaee-api:7.0'
+                
+                // https://mvnrepository.com/artifact/org.glassfish.web/javax.servlet.jsp.jstl
+                compile group: 'org.glassfish.web', name: 'javax.servlet.jsp.jstl', version: '1.2.4'
+                // https://mvnrepository.com/artifact/javax.servlet.jsp.jstl/javax.servlet.jsp.jstl-api
+                compile group: 'javax.servlet.jsp.jstl', name: 'javax.servlet.jsp.jstl-api', version: '1.2.1'
+                
 		compile project(':restaurantBooking-service')
 }

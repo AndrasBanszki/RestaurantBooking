@@ -13,12 +13,25 @@ import static org.junit.Assert.*;
 public class RestaurantDAOTest {
 
     /**
-     * Test of getRestaurants method, of class RestaurantDAO.
+     * Test of getAllRestaurants method, of class RestaurantDAO.
      */
     @Test
-    public void testGetRestaurants() {
+    public void testGetAllRestaurants() {
+        RestaurantDAO restaurantDAO = new RestaurantDAO();
         
-        List<Restaurant> restaurants = new RestaurantDAO().getRestaurants(1);        
+        List<Restaurant> restaurants = restaurantDAO.getAllRestaurants();
+        
+        assertEquals(6, restaurants.size());
+    }
+
+    /**
+     * Test of getRestaurantByCity method, of class RestaurantDAO.
+     */
+    @Test
+    public void testGetRestaurantByCity() {
+        RestaurantDAO restaurantDAO = new RestaurantDAO();
+        
+        List<Restaurant> restaurants = restaurantDAO.getRestaurantByCity(1);
         
         assertFalse(restaurants.isEmpty());  
         assertEquals(3, restaurants.size());

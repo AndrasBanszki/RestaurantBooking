@@ -4,7 +4,8 @@ package my.restaurant.booking.main.demos;
 
 import java.util.StringJoiner;
 import my.restaurant.booking.api.model.City;
-import my.restaurant.booking.service.BookingServices;
+import my.restaurant.booking.service.DAOManager;
+
 
 /**
  *
@@ -12,7 +13,7 @@ import my.restaurant.booking.service.BookingServices;
  */
 public class StrjoinerDemo {
     public static void main(String[] args) {
-        BookingServices bs = new BookingServices();
+        DAOManager daoManager = new DAOManager();
         
         
         StringJoiner sj = new StringJoiner( "</option>\n" +
@@ -20,7 +21,7 @@ public class StrjoinerDemo {
                                             "<select id=\"selectbasic\" name=\"selectbasic\" class=\"form-control\">\n<option value=\"",
                                             "</option>\n</select>");
         
-        for(City c : bs.getCityes()){
+        for(City c : daoManager.getAllCities()){
             sj.add(String.valueOf(c.getId()) + "\">" +c.getName());
         }
         

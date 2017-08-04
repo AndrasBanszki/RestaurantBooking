@@ -4,6 +4,7 @@ package my.restaurant.booking.jdbc;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
@@ -21,6 +22,12 @@ public class MySqlConnector {
         
         return DriverManager.getConnection(URL, USERNAME, PASSWORD);
     }
-
+    
+    public static PreparedStatement prepareStatement(Connection connection, String sql, PreparedStatementSetter setter) 
+            throws SQLException {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            setter.setValues(ps);
+    return ps;
+    }
 }    
 
