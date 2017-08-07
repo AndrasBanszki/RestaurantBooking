@@ -21,8 +21,8 @@ I used gradle to separate my code into different sub projects, based on their fu
 | restaurantBooking-main    | simply a main class with few demos    | no | - |
 | restaurantBooking-service    | DAOmanager | no | 
 | restaurantBooking-servlet   | Servlets | no | control |
-| restaurantBooking-servlet/src/main/webapp/WEB-INF/views/ | .jsp files for the user interface | - | view |
-| description/sqlSrcipts/ | scripts for the db in MySql | - | - |
+| restaurantBooking-servlet/src/main/webapp/WEB-INF/views | .jsp files for the user interface | - | view |
+| sqlSrcipts | scripts for the db in MySql | - | - |
 
 
 
