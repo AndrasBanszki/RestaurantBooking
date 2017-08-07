@@ -1,5 +1,3 @@
-
-
 package my.restaurant.booking.api.service;
 
 /**

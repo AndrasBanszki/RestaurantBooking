@@ -3,8 +3,8 @@
 package my.restaurant.booking.servlet;
 
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.List;
+import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import my.restaurant.booking.api.model.City;
 import my.restaurant.booking.api.model.Restaurant;
-import my.restaurant.booking.service.DAOServices;
+import my.restaurant.booking.service.DAOManager;
+
 
 /**
  *
@@ -23,17 +24,19 @@ import my.restaurant.booking.service.DAOServices;
 public class RestaurantListServlet extends HttpServlet{
     private String errorString;
     
+    @Inject private DAOManager daoManager;
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        DAOServices bs = null;
+        
         List<City> cityList = null;
         List<Restaurant> restList = null;
         
-        try {bs = new DAOServices();
-             cityList = bs.getAllCityes();
-             restList = bs.getAllRestaurants();
+        try {
+             cityList = this.daoManager.getAllCities();
+             restList = this.daoManager.getAllRestaurants();
         } catch (Exception e) {
             request.setAttribute("errorString", e.getMessage());
         }        

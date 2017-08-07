@@ -9,13 +9,71 @@ jar {
     
 }
 
+
+
 dependencies{
 		compile 'javax:javaee-api:7.0'
-                
+                compile 'javax.enterprise:cdi-api:2.0'
+    
                 // https://mvnrepository.com/artifact/org.glassfish.web/javax.servlet.jsp.jstl
                 compile group: 'org.glassfish.web', name: 'javax.servlet.jsp.jstl', version: '1.2.4'
                 // https://mvnrepository.com/artifact/javax.servlet.jsp.jstl/javax.servlet.jsp.jstl-api
                 compile group: 'javax.servlet.jsp.jstl', name: 'javax.servlet.jsp.jstl-api', version: '1.2.1'
                 
 		compile project(':restaurantBooking-service')
+                
+
 }
+//its buggy for me..
+task deploy(dependsOn: war, type: Copy) {
+ 
+     println "configure task deploy"
+ 
+     from('build/libs/') {
+ 
+          include '*.war'
+ 
+     }
+ 
+     into "$System.env.JBOSS_HOME"+"/standalone/deployments/"
+ 
+     def target="${project.name}.war"
+ 
+     def ok=new File("${System.env.JBOSS_HOME}/standalone/deployments/${target}.deployed");
+ 
+     def nok=new File("${System.env.JBOSS_HOME}/standalone/deployments/${target}.failed");   
+ 
+     doFirst {
+ 
+          println "deploy doFirst"
+ 
+          if(ok.exists()) { ok.delete() }
+ 
+          if(nok.exists()) { nok.delete() }
+ 
+     }
+ 
+     doLast {
+ 
+          println "executing wildfly deploy..."
+ 
+          def deployed=false
+ 
+          for(def i=0;i<80;i++) {
+ 
+               if(ok.exists()) { deployed=true; break }
+ 
+               if(nok.exists()) { break }
+ 
+               sleep(500);
+ 
+          }
+ 
+          if(deployed) { println("deploy ok.") }
+ 
+          else { throw new RuntimeException("Deployment failed, see Wildfly logs!") }
+ 
+     }
+ 
+}
+
