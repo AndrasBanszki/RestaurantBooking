@@ -16,7 +16,7 @@ I used gradle to separate my code into different sub projects, based on their fu
 | folder    | content | tests|MVC   |
 | :------- | ----: | :---: | :---: |
 | restaurantBooking-api | POJO-s and Interfaces | no|  model |
-| restaurantBooking-jdbc    | DAO and connector classe  |  jes Junit  | - |
+| restaurantBooking-jdbc    | DAO and connector classe  | yes Junit  | - |
 | restaurantBooking-main    | simply a main class with few demos    | no | - |
 | restaurantBooking-service    | DAOmanager | no | 
 | restaurantBooking-servlet   | Servlets | no | control |
