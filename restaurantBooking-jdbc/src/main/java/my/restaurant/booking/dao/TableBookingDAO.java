@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.enterprise.context.RequestScoped;
 import my.restaurant.booking.api.dao.InterfaceTableBookingDAO;
 import my.restaurant.booking.api.model.Booking;
 import my.restaurant.booking.api.model.Table;
@@ -21,6 +22,7 @@ import my.restaurant.booking.jdbc.MySqlConnector;
  *
  * @author Bánszki András <andras.banszki@gmail.com>
  */
+@RequestScoped
 public class TableBookingDAO extends MySqlConnector implements InterfaceTableBookingDAO{
     
     private final static String SELECT_ALL_QUERY = "SELECT restaurant.book_table.id AS id,\n" +

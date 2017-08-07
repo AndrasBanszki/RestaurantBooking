@@ -15,12 +15,15 @@ jar {
 }
 
 dependencies {
+        
         compile project(':restaurantBooking-api')
+        compile 'javax.enterprise:cdi-api:2.0'
 	testCompile('junit:junit:4.12'){
 		exclude group: 'org.hamcrest'
 	}
 	testCompile 'org.hamcrest:hamcrest-library:1.3'
         compile 'mysql:mysql-connector-java:6.0.3'
+
 }
 
 test {

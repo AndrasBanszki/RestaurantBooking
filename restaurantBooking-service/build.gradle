@@ -12,4 +12,5 @@ jar {
 dependencies{
 		compile 'javax:javaee-api:7.0'
 		compile project(':restaurantBooking-jdbc')
+                compile 'javax.enterprise:cdi-api:2.0'
 }

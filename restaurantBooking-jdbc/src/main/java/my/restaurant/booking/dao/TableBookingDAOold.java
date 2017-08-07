@@ -14,6 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.enterprise.context.RequestScoped;
 import my.restaurant.booking.api.dao.InterfaceTableBookingDAO;
 
 import my.restaurant.booking.api.model.TableBookingOld;
@@ -23,6 +24,7 @@ import my.restaurant.booking.jdbc.MySqlConnector;
  *
  * @author Bánszki András <andras.banszki@gmail.com>
  */
+@RequestScoped
 public class TableBookingDAOold extends MySqlConnector  {
     
     private static final String QUERY_PART1 =   "SELECT t.id as tableId, restaurant_table as restTableId, t.restaurant_id as restId,\n" +

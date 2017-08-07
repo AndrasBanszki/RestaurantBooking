@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.enterprise.context.RequestScoped;
 import my.restaurant.booking.api.model.City;
 import my.restaurant.booking.jdbc.MySqlConnector;
 import my.restaurant.booking.api.dao.InterfaceCityDAO;
@@ -16,6 +17,8 @@ import my.restaurant.booking.api.dao.InterfaceCityDAO;
  *
  * @author Bánszki András <andras.banszki@gmail.com>
  */
+
+@RequestScoped
 public class CityDAO extends MySqlConnector implements InterfaceCityDAO{
     
     private final static String QUERY_ALL = "SELECT city.id AS cityId, city.name AS cityName " +

@@ -22,6 +22,7 @@ import my.restaurant.booking.service.DAOManager;
 public class BookingServlet extends HttpServlet{
     
     @Inject DAOManager daoManager;
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -29,18 +30,23 @@ public class BookingServlet extends HttpServlet{
         //getting data for the form
         this.selectCity(request, response);
         this.selectRestaurant(request, response);
+ 
+        // Storing back the parameters
+        request.setAttribute("selectCity", request.getParameter("selectCity"));
+        request.setAttribute("selectRestaurant", request.getParameter("selectRestaurant"));
+        request.setAttribute("selectDate", request.getParameter("selectDate"));
         
         //write out parameters for development testing
         Enumeration params = request.getParameterNames(); 
         while(params.hasMoreElements()){
             String paramName = (String)params.nextElement();
-            System.out.println("Parameter Name - "+paramName+", Value - "+request.getParameter(paramName));
-        }        
-        
-        // Storing back the parameters
-        request.setAttribute("selectCity", request.getParameter("selectCity"));
-        request.setAttribute("selectRestaurant", request.getParameter("selectRestaurant"));
-        request.setAttribute("selectDate", request.getParameter("selectDate"));
+            System.out.println("Request Parameter Name - "+paramName+", Value - "+request.getParameter(paramName));
+        }
+        Enumeration params2 = request.getSession().getAttributeNames();
+        while(params2.hasMoreElements()){
+            String paramName = (String)params2.nextElement();
+            System.out.println("Session Parameter Name - "+paramName+", Value - "+request.getParameter(paramName));
+        } 
          
         // Forward to /WEB-INF/views/productListView.jsp
         RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/views/bookingView.jsp");
@@ -58,7 +64,7 @@ public class BookingServlet extends HttpServlet{
         
         List<City> cityList = null;
         try { 
-            cityList = daoManager.getAllCities();
+            cityList = this.daoManager.getAllCities();
         } catch (Exception e) {
             request.setAttribute("errorString", e.getMessage());
         }
@@ -69,7 +75,7 @@ public class BookingServlet extends HttpServlet{
         
         List<Restaurant> restList = null;
         try{
-            restList = daoManager.getRestaurantByCity( Long.parseLong(request.getParameter("selectCity")));
+            restList = this.daoManager.getRestaurantByCity( Long.parseLong(request.getParameter("selectCity")));
         } catch (Exception e) {
             request.setAttribute("errorString", e.getMessage());
         }

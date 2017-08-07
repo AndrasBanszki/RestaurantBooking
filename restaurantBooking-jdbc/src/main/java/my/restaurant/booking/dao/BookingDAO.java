@@ -11,15 +11,19 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.enterprise.context.RequestScoped;
 import my.restaurant.booking.api.model.Booking;
 import my.restaurant.booking.jdbc.MySqlConnector;
 import static my.restaurant.booking.jdbc.MySqlConnector.prepareStatement;
 import my.restaurant.booking.api.dao.InterfaceBookingDAO;
 
+
 /**
  *
  * @author Bánszki András <andras.banszki@gmail.com>
  */
+
+@RequestScoped
 public class BookingDAO extends MySqlConnector  implements InterfaceBookingDAO{
     
     private final static String SELECT_ALL_QUERY = "SELECT restaurant.books.id AS bookId,\n" + 

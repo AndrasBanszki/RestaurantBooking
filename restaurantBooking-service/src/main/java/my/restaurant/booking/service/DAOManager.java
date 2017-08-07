@@ -1,3 +1,4 @@
+
 package my.restaurant.booking.service;
 
 import java.time.LocalDate;
@@ -15,6 +16,11 @@ import my.restaurant.booking.api.model.Restaurant;
 import my.restaurant.booking.api.model.Table;
 import my.restaurant.booking.api.model.TableBooking;
 import my.restaurant.booking.api.service.InterfaceDaoManager;
+import my.restaurant.booking.dao.BookingDAO;
+import my.restaurant.booking.dao.CityDAO;
+import my.restaurant.booking.dao.RestaurantDAO;
+import my.restaurant.booking.dao.TableBookingDAO;
+import my.restaurant.booking.dao.TablesDAO;
 
 
 /**
@@ -29,7 +35,8 @@ public class DAOManager implements InterfaceDaoManager{
     @Inject private InterfaceRestaurantDAO restaurantDao;
     @Inject private InterfaceTableBookingDAO tableBookingDao;
     @Inject private InterfaceTablesDAO tablesDao;
-
+    
+    
 
     @Override
     public List<Booking> getAllBooking() {
