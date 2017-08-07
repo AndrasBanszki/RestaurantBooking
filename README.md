@@ -12,6 +12,7 @@ After that he gets a list with the already booked tables, to give some help with
 
 ##### <i class="icon-folder-open"></i> folder contents
 I used gradle to separate my code into different sub projects, based on their funcions, and content
+
 | folder    | content | tests|MVC   |
 | :------- | ----: | :---: | :---: |
 | restaurantBooking-api | POJO-s and Interfaces | no|  model |
@@ -19,7 +20,7 @@ I used gradle to separate my code into different sub projects, based on their fu
 | restaurantBooking-main    | simply a main class with few demos    | no | - |
 | restaurantBooking-service    | DAOmanager | no | 
 | restaurantBooking-servlet   | Servlets | no | control |
-| restaurantBooking-servlet/src/main/webapp/WEB-INF/views/ | .jsp files for the user interface | - | view
+| restaurantBooking-servlet/src/main/webapp/WEB-INF/views/ | .jsp files for the user interface | - | view |
 | description/sqlSrcipts/ | scripts for the db in MySql | - | - |
 
 
