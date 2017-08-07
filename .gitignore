@@ -9,7 +9,6 @@
 # other generated files
 bin/
 gen/
-build/
 .git/
 .gradle/
 .nb-gradle/
@@ -37,3 +36,4 @@ local.properties
 
 #NDK
 obj/
+/restaurantBooking-servlet/null/

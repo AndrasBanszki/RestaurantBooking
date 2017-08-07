@@ -11,6 +11,7 @@ After that he gets a list with the already booked tables, to give some help with
 
 
 ##### <i class="icon-folder-open"></i> folder contents
+
 I used gradle to separate my code into different sub projects, based on their funcions, and content
 
 | folder    | content | tests|MVC   |
@@ -30,8 +31,8 @@ I used gradle to separate my code into different sub projects, based on their fu
 
 1. easy method 
 - ***Requirements:***
- WildFly or some other server
- MySql Database
+WildFly or some other server
+MySql Database
 - *****Run:*****
 run each query you got in description/sqlSrcipts/ folder
 restaurantBooking-servlet\build\libs put the .war file from here to your standalone folder of your server to deploy the .war
