@@ -14,8 +14,8 @@
      <script type="text/javascript">
          
             function mainSetup(){
-                refreshAttr();
                 setMinDate();
+                refreshAttr();
             }
             // sets a few attributes at startup
             function refreshAttr(){
@@ -30,6 +30,10 @@
                 var selectedRestaurant =restForm.options[restForm.selectedIndex].value;
                 if ( !(selectedRestaurant === "0") && restForm.options[0].value === "0"){
                     restForm.remove(0);
+                }
+                var selectedDate = document.getElementById("selectDate").value;
+                if ( (selectedDate === ""){
+                    document.getElementById("selectDate").value = document.getElementById("selecteDate").getAttribute("mind");
                 } 
             }
             // sets Mindate to today so you cant get a booking for Yesterday min="2000-01-02"
@@ -40,7 +44,7 @@
                     today = yyyy + '-' + mm + '-' + dd;
                 var dateInput = document.getElementById("selectDate");
                 dateInput.setAttribute("min", today);
-                if(  dateInput.getAttribute("value") === null )
+                if(  dateInput.getAttribute("value") === "" )
                     document.getElementById("selectDate").setAttribute("value", today);
             }
 
@@ -107,22 +111,46 @@
         
         <input type="submit" value="Select" />
         
+        <br />
+        <c:choose>
+                <c:when test="${tableBookings.size() > 0}">               
+                <table border="0" cellpadding="5" cellspacing="1" >
+                    
+                    <tr>
+                       <th>Table reserved:</th>
+                       <th>Time:</th>
+                       <th>Duration:</th>
+                    </tr>
+                    
+                    <c:forEach var="tableBooking" items="${tableBookings}"  >
+                       <tr>
+                          <td>
+                              <c:out value="${tableBooking.table.tableNo}" />
+                          </td>
+                          <td>
+                             <c:out value="${tableBooking.booking.dateTime.getHour()} : ${tableBooking.booking.dateTime.getMinute()}" />
+                          </td>
+                          <td>
+                              <c:out value="${tableBooking.booking.duration}" />
+                          </td>
+                       </tr>
+                    </c:forEach>
+                       
+                </table>
+        </c:when>    
+                <c:otherwise>
+                    No reservations for the selected day, try out 2017.09.01 and select Nyíregyháza and Tírpák falatozó
+                    <br />
+                </c:otherwise>
+        </c:choose> 
+        
     </form> <!-- FORM END-->
     
      <!--
      used to write out parameters to the page, for testing
      -->
-    <c:choose>
-                <c:when test="${selectCity != null}">
-                     Selected city: <c:out value="${selectCity}" />
-                    <br />
-                </c:when>    
-                <c:otherwise>
-                     No City selected Yet!
-                    <br />
-                </c:otherwise>
-            </c:choose> 
-     <p>Selected city: <c:out value="${selectCity}" /></p>
+
+
      
      <c:if test="${errorString} !== null" >
            <p style="color: red;">${errorString}</p>

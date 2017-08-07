@@ -44,7 +44,7 @@ public class TableBookingDAO extends MySqlConnector implements InterfaceTableBoo
                                                                   "AND bt.book_id = bo.id\n" +
                                                                   "AND Date(bo.date_time) = ?\n" +
                                                                   "AND ta.restaurant_id = ?\n" +
-                                                                  "ORDER BY ta.id ASC, bo.date_time;";
+                                                                  "ORDER BY bo.date_time ASC, ta.id;";
     
     /*
     Trying to use the other DAO-s to fill out the TableBooking list, its a basic thing

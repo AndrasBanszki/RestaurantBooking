@@ -21,11 +21,11 @@
  
     <p style="color: red;">${errorString}</p>
  
-    <table border="1" cellpadding="5" cellspacing="1" >
+    <table border="0" cellpadding="5" cellspacing="1" >
        <tr>
           <th>Restaurant</th>
           <th>City</th>
-          <th>Tables</th>
+          
        </tr>
        <c:forEach var="Restaurant" items="${restList}"  >
           <tr>
@@ -39,9 +39,7 @@
                     </c:if>
                 </c:forEach>
              </td>
-             <td>
-                 <c:out value="${Restaurant.city}" />
-             </td>
+
           </tr>
        </c:forEach>
     </table>
