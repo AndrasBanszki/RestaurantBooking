@@ -125,10 +125,10 @@
                     <c:forEach var="tableBooking" items="${tableBookings}"  >
                        <tr>
                           <td>
-                              <c:out value="${tableBooking.table.tableNo}" />
+                             <c:out value="${tableBooking.booking.dateTime.getHour()} : ${tableBooking.booking.dateTime.getMinute()}" />
                           </td>
                           <td>
-                             <c:out value="${tableBooking.booking.dateTime.getHour()} : ${tableBooking.booking.dateTime.getMinute()}" />
+                              <c:out value="${tableBooking.table.tableNo}" />
                           </td>
                           <td>
                               <c:out value="${tableBooking.booking.duration}" />
