@@ -40,7 +40,9 @@ restaurantBooking-servlet\build\libs put the .war file from here to your standal
 ***Summary:***
 
 Language: Sql, Java, Html, Javascript, JSP
+
 Framework/API: JDBC, Junit, Servlets, HTML5
+
 IDE/Tools:  Netbeans, Gradle, MySql Workbench
 
 ***Contact:***
