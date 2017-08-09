@@ -24,19 +24,6 @@ I used gradle to separate my code into different sub projects, based on their fu
 | restaurantBooking-servlet/src/main/webapp/WEB-INF/views | .jsp files for the user interface | - | view |
 | sqlSrcipts | scripts for the db in MySql | - | - |
 
-
-
-
-*****Requirements and running the system:*****
-
-1. easy method 
-- ***Requirements:***
-WildFly or some other server
-MySql Database
-- *****Run:*****
-run each query you got in description/sqlSrcipts/ folder
-restaurantBooking-servlet\build\libs put the .war file from here to your standalone folder of your server to deploy the .war
-
 ***Summary:***
 
 Language: Sql, Java, Html, Javascript, JSP
