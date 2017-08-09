@@ -6,6 +6,7 @@ This is a simple restaurant table booking web application. Based on an imagined 
 > **Note:**
 > The main goal of this project was to improve my Java skills, with web technologies. 
 > Please note not every functions are working at this state.
+
 The application has a web based user interface, where the user can request the booking off tabble of his choice. The user can choose in which City, and in wich Restaurant he wants to make a Booking, and choose a Date. 
 After that he gets a list with the already booked tables, to give some help with the unavailable bookings. After that user shoudl pick a table number, a time of the booking, the duration, and for how many people he wants to make a reservation. If the users request isnt collides with another reservation in the database, the user shoudl get an acknowledgement message, otherwise an error message.
 
