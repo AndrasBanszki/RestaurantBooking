@@ -35,13 +35,14 @@ task deploy(dependsOn: war, type: Copy) {
  
      }
  
-     into "$System.env.JBOSS_HOME"+"/standalone/deployments/"
+     /**into "$System.env.JBOSS_HOME"+"/standalone/deployments/"**/
+     into "E:/feladat/wildfly-10.1.0.Final/standalone/deployments"
  
      def target="${project.name}.war"
  
-     def ok=new File("${System.env.JBOSS_HOME}/standalone/deployments/${target}.deployed");
+     def ok=new File("E:/feladat/wildfly-10.1.0.Final/standalone/deployments/${target}.deployed");
  
-     def nok=new File("${System.env.JBOSS_HOME}/standalone/deployments/${target}.failed");   
+     def nok=new File("E:/feladat/wildfly-10.1.0.Final/standalone/deployments/${target}.failed");   
  
      doFirst {
  

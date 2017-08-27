@@ -11,55 +11,19 @@
   <head>
      <meta charset="UTF-8">
      <title>Restaurants List</title>
-     <script type="text/javascript">
-         
-            function mainSetup(){
-                setMinDate();
-                refreshAttr();
-            }
-            // sets a few attributes at startup
-            function refreshAttr(){
-                var cityForm = document.getElementById("selectCity");
-                var selectedCity = cityForm.options[cityForm.selectedIndex].value;
-                if (selectedCity === "0"){
-                    document.getElementById("selectRestaurant").disabled=true;
-                } else if(cityForm.options[0].value === "0"){
-                            cityForm.remove(0);
-                       }
-                var restForm = document.getElementById("selectRestaurant");
-                var selectedRestaurant =restForm.options[restForm.selectedIndex].value;
-                if ( !(selectedRestaurant === "0") && restForm.options[0].value === "0"){
-                    restForm.remove(0);
-                }
-                var selectedDate = document.getElementById("selectDate").value;
-                if ( (selectedDate === ""){
-                    document.getElementById("selectDate").value = document.getElementById("selecteDate").getAttribute("mind");
-                } 
-            }
-            // sets Mindate to today so you cant get a booking for Yesterday min="2000-01-02"
-            function setMinDate(){
-                var today = new Date();
-                var dd = today.getDate(); var mm = today.getMonth()+1; var yyyy = today.getFullYear();
-                if( dd < 10) dd = '0' + dd; if(mm < 10) mm = '0' + mm;
-                    today = yyyy + '-' + mm + '-' + dd;
-                var dateInput = document.getElementById("selectDate");
-                dateInput.setAttribute("min", today);
-                if(  dateInput.getAttribute("value") === "" )
-                    document.getElementById("selectDate").setAttribute("value", today);
-            }
-
-
-        </script>
+     
+     <script language="text/javascript"  type="text/javascript" src="js/js.js"></script>
+     
   </head>
   <body onload="mainSetup();">
- 
+      
      <jsp:include page="_header.jsp"></jsp:include>
      <jsp:include page="_menu.jsp"></jsp:include>
        
      <!--
         FORM start
      -->  
-    <form method="POST" action="restaurantBooking">
+    <form method="GET" action="restaurantBooking">
         
          <!--
              SELECT City
@@ -80,12 +44,13 @@
 
             </c:forEach>
         </select>
-         
+        
+         <br /> 
         <!--
             SELECT Restaurant
         --> 
         
-        <select id="selectRestaurant" name="selectRestaurant" onChange="submit();">
+        <select id="selectRestaurant" name="selectRestaurant" onChange="submit();" disabled="true" >
 
          <option value="0">Select Restaurant</option>
          
@@ -104,21 +69,53 @@
            </c:forEach>
        </select>          
         
+         <br />
+         <!-- 
+            SELECT table
+        -->
+        <select id="selectTable" name="selectTable" onChange="submit();" disabled="true" >
+             <option value="0">Select Table</option>
+            <c:forEach items="${restTables}" var="table">
+                <c:choose>
+                    <c:when test="${selectTable == table.id}">
+                         <option selected="selected" value="${table.id}">
+                             <c:out value="${table.tableNo}. table: ${table.numberOfSeats}" />
+                         </option>
+                        <br />
+                    </c:when>    
+                    <c:otherwise>
+                         <option value="${table.id}">
+                             <c:out value="${table.tableNo}. table: ${table.numberOfSeats}" /> 
+                         </option>
+                        <br />
+                    </c:otherwise>
+                </c:choose>
+
+            </c:forEach>
+        </select>
+        
+        <br/>
         <!--
             INPUT date
         -->
-        <input type="date" name="selectDate" id="selectDate" value="${selectDate}" >
-        
-        <input type="submit" value="Select" />
+        <input type="date" name="selectDate" id="selectDate" value="${selectDate}" onChange="submit();" >
         
         <br />
+        
+        <!-- 
+            input time
+        -->
+        <input type="time" name="selectTime" id="selectTime" value="${selectTime}" min="08:00" max="22:00">
+        
+        <br />
+        
         <c:choose>
                 <c:when test="${tableBookings.size() > 0}">               
                 <table border="0" cellpadding="5" cellspacing="1" >
                     
                     <tr>
-                       <th>Table reserved:</th>
                        <th>Time:</th>
+                       <th>Table reserved:</th>
                        <th>Duration:</th>
                     </tr>
                     
@@ -134,16 +131,22 @@
                               <c:out value="${tableBooking.booking.duration}" />
                           </td>
                        </tr>
-                    </c:forEach>
-                       
+                    </c:forEach>    
                 </table>
+                
         </c:when>    
                 <c:otherwise>
                     No reservations for the selected day, try out 2017.09.01 and select Nyíregyháza and Tírpák falatozó
-                    <br />
+                    
                 </c:otherwise>
         </c:choose> 
         
+        
+        
+        
+        <br />
+        <input type="submit" value="Select" />
+                    
     </form> <!-- FORM END-->
     
      <!--
