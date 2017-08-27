@@ -3,6 +3,7 @@
 package my.restaurant.booking.api.dao;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import my.restaurant.booking.api.model.Booking;
 
@@ -17,5 +18,9 @@ public interface InterfaceBookingDAO {
     public Booking getBookingById(long id);
     
     public List<Booking> getBookingsByDate(LocalDate date);
+    
+    public long addNewBooking(LocalDateTime dateTime, int duration, int numberPeople );
+    
+    public void deleteBooking(long id);
 
 }

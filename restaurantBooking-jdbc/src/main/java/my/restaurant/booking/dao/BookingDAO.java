@@ -45,6 +45,12 @@ public class BookingDAO extends MySqlConnector  implements InterfaceBookingDAO{
                                                        "       restaurant.books.number_of_people noPeople\n" +
                                                        "FROM restaurant.books\n" +
                                                        "WHERE Date(restaurant.books.date_time) = ?;";
+    
+    private final static String ADD_BOOKING = "INSERT INTO `restaurant`.`books` (`date_time`,`long`,`number_of_people`)\n" +
+                                              "VALUES ( ?, ?, ? );";
+    
+    private final static String DELETE_BOOKING = "DELETE FROM `restaurant`.`books`\n" +
+                                                 "  WHERE restaurant.books.id = ?;";
 
     @Override
     public List<Booking> getAllBooking() {
@@ -98,10 +104,10 @@ public class BookingDAO extends MySqlConnector  implements InterfaceBookingDAO{
         List<Booking> bookings = new LinkedList<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 
-        try(PreparedStatement stmt = prepareStatement(this.getConnection(), 
+        try(PreparedStatement pstmt = prepareStatement(this.getConnection(), 
                                                        SELECT_BY_DATE_QUERY,
                                                        ps -> ps.setString(1, date.format(formatter)));  
-            ResultSet rs = stmt.executeQuery(); )
+            ResultSet rs = pstmt.executeQuery(); )
             {
             while (rs.next()) { 
                 bookings.add(new Booking(rs.getLong("bookId"),
@@ -117,4 +123,55 @@ public class BookingDAO extends MySqlConnector  implements InterfaceBookingDAO{
         return bookings;
     }
 
+    @Override
+    public long addNewBooking(LocalDateTime dateTime, int duration, int numberPeople) {
+        long newBookingId = 0;
+                                                                // '2017-09-01 11:30:00'
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        
+        try( PreparedStatement pstmt = prepareStatement(this.getConnection(), 
+                                                       ADD_BOOKING,
+                                                       Statement.RETURN_GENERATED_KEYS,
+                                                       ps -> { ps.setString(1, dateTime.format(formatter));
+                                                               ps.setInt(2, duration);
+                                                               ps.setInt(3, numberPeople); } 
+                                                        );
+            
+            )   {
+                int affectedRows = pstmt.executeUpdate();
+                if (affectedRows == 0){
+                    throw new SQLException("Creating booking failed, no rows affected.");
+                }
+                try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        newBookingId = generatedKeys.getLong(1);
+                    }
+                else {
+                    throw new SQLException("Creating booking failed, no ID obtained.");
+                    }
+                }
+        } catch (SQLException ex) {
+            Logger.getLogger(BookingDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        return newBookingId;
+    }
+    
+    @Override
+    public void deleteBooking(long id) {
+        try (PreparedStatement pstmt = prepareStatement(this.getConnection(), 
+                                                       DELETE_BOOKING,
+                                                       ps -> ps.setLong(1, id)); 
+            ){
+            System.out.println(pstmt);
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows == 0){
+                throw new SQLException("Delete booking failed, no rows affected.");
+            }    
+        } catch (SQLException ex) {
+            Logger.getLogger(BookingDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
 }
+    

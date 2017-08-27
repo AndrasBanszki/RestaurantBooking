@@ -46,6 +46,10 @@ public class TableBookingDAO extends MySqlConnector implements InterfaceTableBoo
                                                                   "AND ta.restaurant_id = ?\n" +
                                                                   "ORDER BY bo.date_time ASC, ta.id;";
     
+    private final static String ADD_TABLEBOOKING = "INSERT INTO `restaurant`.`book_table`\n" +
+                                                   "	(`id`, 	`book_id`,`table_id`)\n" +
+                                                   "VALUES 	( ?, ?, ? );";
+    
     /*
     Trying to use the other DAO-s to fill out the TableBooking list, its a basic thing
     TableBooking has an id, and 2 outer keys : table_id, book_id in the database
@@ -105,6 +109,11 @@ public class TableBookingDAO extends MySqlConnector implements InterfaceTableBoo
             Logger.getLogger(RestaurantDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return tableBookings;
+    }
+
+    @Override
+    public void storeBooking(long book_table, long table_id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

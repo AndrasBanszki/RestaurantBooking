@@ -13,4 +13,6 @@ public interface InterfaceTableBookingDAO {
     public List<TableBooking> getAllTableBooking();
     public List<TableBooking> getTableBookingOfRestaurantByDate(long restId, LocalDate date);
     
+    public void storeBooking(long book_table, long table_id);
+    
 }
