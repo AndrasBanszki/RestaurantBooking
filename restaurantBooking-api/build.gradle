@@ -4,11 +4,12 @@ description = 'restaurantBooking-API'
 
 jar {
     baseName = 'restaurantBooking-api'
-	version = '0.0.1-SNAPSHOT'
+    version = '0.0.1-SNAPSHOT'
 
     
 }
 
 dependencies{
-	
+    compile 'javax:javaee-api:7.0'
+    
 }

@@ -4,7 +4,7 @@ apply plugin: 'war'
 
 jar {
     baseName = 'restaurantBooking-servlet'
-	version = '0.0.1-SNAPSHOT'
+    version = '0.0.1-SNAPSHOT'
 
     
 }
@@ -12,69 +12,64 @@ jar {
 
 
 dependencies{
-		compile 'javax:javaee-api:7.0'
-                compile 'javax.enterprise:cdi-api:2.0'
-    
-                // https://mvnrepository.com/artifact/org.glassfish.web/javax.servlet.jsp.jstl
-                compile group: 'org.glassfish.web', name: 'javax.servlet.jsp.jstl', version: '1.2.4'
-                // https://mvnrepository.com/artifact/javax.servlet.jsp.jstl/javax.servlet.jsp.jstl-api
-                compile group: 'javax.servlet.jsp.jstl', name: 'javax.servlet.jsp.jstl-api', version: '1.2.1'
-                
-		compile project(':restaurantBooking-service')
-                
-
+    compile 'javax:javaee-api:7.0'
+    compile 'javax.enterprise:cdi-api:2.0'
+    compile group: 'org.glassfish.web', name: 'javax.servlet.jsp.jstl', version: '1.2.4'
+    compile group: 'javax.servlet.jsp.jstl', name: 'javax.servlet.jsp.jstl-api', version: '1.2.1'                
+    compile project(':restaurantBooking-service')
 }
-//its buggy for me..
+
+
 task deploy(dependsOn: war, type: Copy) {
  
-     println "configure task deploy"
+    println "configure task deploy"
  
-     from('build/libs/') {
+    from('build/libs/') {
  
-          include '*.war'
+        include '*.war'
  
-     }
+    }
  
-     /**into "$System.env.JBOSS_HOME"+"/standalone/deployments/"**/
-     into "E:/feladat/wildfly-10.1.0.Final/standalone/deployments"
+    /**into "$System.env.JBOSS_HOME"+"/standalone/deployments/"**/
+    into "E:/feladat/wildfly-10.1.0.Final/standalone/deployments"
  
-     def target="${project.name}.war"
+    def target="${project.name}.war"
  
-     def ok=new File("E:/feladat/wildfly-10.1.0.Final/standalone/deployments/${target}.deployed");
+    def ok=new File("E:/feladat/wildfly-10.1.0.Final/standalone/deployments/${target}.deployed");
  
-     def nok=new File("E:/feladat/wildfly-10.1.0.Final/standalone/deployments/${target}.failed");   
+    def nok=new File("E:/feladat/wildfly-10.1.0.Final/standalone/deployments/${target}.failed");   
  
-     doFirst {
+    doFirst {
  
-          println "deploy doFirst"
+        println "deploy doFirst"
  
-          if(ok.exists()) { ok.delete() }
+        if(ok.exists()) { ok.delete() }
  
-          if(nok.exists()) { nok.delete() }
+        if(nok.exists()) { nok.delete() }
  
-     }
+    }
  
-     doLast {
+    doLast {
  
-          println "executing wildfly deploy..."
+        println "executing wildfly deploy..."
  
-          def deployed=false
+        def deployed=false
  
-          for(def i=0;i<80;i++) {
+        for(def i=0;i<80;i++) {
  
-               if(ok.exists()) { deployed=true; break }
+            if(ok.exists()) { deployed=true; break }
  
-               if(nok.exists()) { break }
+            if(nok.exists()) { break }
  
-               sleep(500);
+            sleep(500);
  
-          }
+        }
  
-          if(deployed) { println("deploy ok.") }
+        if(deployed) { println("deploy ok.") }
  
-          else { throw new RuntimeException("Deployment failed, see Wildfly logs!") }
+        else { throw new RuntimeException("Deployment failed, see Wildfly logs!") }
  
-     }
+    }
  
 }
 
